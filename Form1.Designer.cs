@@ -59,11 +59,11 @@
             this.Start = new System.Windows.Forms.ToolStripButton();
             this.Pause = new System.Windows.Forms.ToolStripButton();
             this.Step = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabelGenerations = new System.Windows.Forms.ToolStripStatusLabel();
             this.graphicsPanel1 = new GOLFinal.GraphicsPanel();
             this.Finite = new System.Windows.Forms.RadioButton();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.Toroidal = new System.Windows.Forms.RadioButton();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -329,6 +329,11 @@
             this.Step.ToolTipText = "Step: Advanes the program by one step while paused.";
             this.Step.Click += new System.EventHandler(this.toolStripButton3_Click);
             // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
+            // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -368,11 +373,6 @@
             this.Finite.Text = "Finite";
             this.Finite.UseVisualStyleBackColor = true;
             this.Finite.CheckedChanged += new System.EventHandler(this.Finite_CheckedChanged);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
             // Toroidal
             // 
