@@ -86,6 +86,7 @@ namespace GOLFinal
 
             // Update status strip generations
             toolStripStatusLabelGenerations.Text = "Generations = " + generations.ToString();
+            toolStripStatusLivingCells.Text = "Living Cells = " + LivingCells();
             graphicsPanel1.Invalidate();
         }
 
@@ -186,6 +187,7 @@ namespace GOLFinal
         }
         private int CountNeighborsFinite(int x, int y)
         {
+            // Count neighbors with a finite border
             int neighborCount = 0;
             int xLen = universe.GetLength(0);
             int yLen = universe.GetLength(1);
@@ -227,6 +229,7 @@ namespace GOLFinal
         }
         private int CountNeighborsToroidal(int x, int y)
         {
+            // Count neighbors with an infinite border
             int neighborCount = 0;
             int xLen = universe.GetLength(0);
             int yLen = universe.GetLength(1);
@@ -265,8 +268,22 @@ namespace GOLFinal
             }
             return neighborCount;
         }
+        public int LivingCells()
+        {
+            // Counts living cells to display Living Cells Count
+            int count = 0;
+            for (int i = 0; i < universe.GetLength(0); i++)
+            {
+                for (int j = 0; j < universe.GetLength(1); j++)
+                {
+                    if (universe[i, j] == true) count++;
+                }
+            }
+            return count;
+        }
         private void RandomTime()
         {
+            // function that randomizes the universe by time
             if (timer.Enabled == false)
             {
                 Random randy = new Random();
@@ -287,6 +304,7 @@ namespace GOLFinal
         }
         private void RandomSeed()
         {
+            // function that randomizes the universe by a user's seed
             if (timer.Enabled == false)
             {
                 RandomSeed modal1 = new RandomSeed();
@@ -346,26 +364,21 @@ namespace GOLFinal
 
         private void customizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // Allows user to change cell and grid colors
             if (timer.Enabled == false)
             {
-                ModalDialog modal1 = new ModalDialog();
-                generations = -1;
+                View_Customization colorPick = new View_Customization();
+                // popup will display current color implimentation
+                colorPick.userCellColor = cellColor;
+                colorPick.userGridColor = gridColor;
 
-                modal1.boxWidth = _boxWidth;
-                modal1.boxHeight = _boxHeight;
-                modal1.boxSpeed = _speed;
-
-                if (DialogResult.OK == modal1.ShowDialog())
+                if (DialogResult.OK == colorPick.ShowDialog())
                 {
-                    _boxWidth = modal1.boxWidth;
-                    _boxHeight = modal1.boxHeight;
-                    timer.Interval = modal1.boxSpeed;
+                    gridColor = colorPick.userGridColor;
+                    cellColor = colorPick.userCellColor;
                 }
-
-                universe = new bool[_boxWidth, _boxHeight];
-                scratchPad = new bool[_boxWidth, _boxHeight];
-                graphicsPanel1.Invalidate();
             }
+            graphicsPanel1.Invalidate();
         }
 
         private void newToolStripButton_Click(object sender, EventArgs e)
@@ -384,33 +397,35 @@ namespace GOLFinal
             }
         }
 
-        private void toolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-
-        }
+        private void toolStripMenuItem1_Click(object sender, EventArgs e){} // Accidental double click on Randomize menu header
 
         private void randomizeByTimeToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // Calls the Randomize By Time function
             RandomTime();
         }
 
         private void randomizeBySeedToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            // Calls the Randomize By User Seed function
             RandomSeed();
         }
 
         private void Finite_CheckedChanged(object sender, EventArgs e)
         {
+            // button that toggles the border to Finite
             isFinite = true;
         }
 
         private void Toroidal_CheckedChanged(object sender, EventArgs e)
         {
+            // button that toggles the border to Toroidal
             isFinite = false;
         }
 
         private void openToolStripButton_Click(object sender, EventArgs e)
         {
+            // Opens a saved .cells file
             int rowNum;
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Filter = "Cells|*.cells";
@@ -502,6 +517,7 @@ namespace GOLFinal
 
         private void saveToolStripButton_Click(object sender, EventArgs e)
         {
+            // saves a .cells file
             SaveFileDialog dlg = new SaveFileDialog();
             dlg.Filter = "Cells|*.cells";
             dlg.FilterIndex = 2; dlg.DefaultExt = "cells";
@@ -542,6 +558,51 @@ namespace GOLFinal
                 // After all rows and columns have been written then close the file.
                 writer.Close();
             }
+        }
+
+        private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Button allows the user to change the size and speed of the universe
+            if (timer.Enabled == false)
+            {
+                ModalDialog modal1 = new ModalDialog();
+                generations = -1;
+
+                modal1.boxWidth = _boxWidth;
+                modal1.boxHeight = _boxHeight;
+                modal1.boxSpeed = _speed;
+
+                if (DialogResult.OK == modal1.ShowDialog())
+                {
+                    _boxWidth = modal1.boxWidth;
+                    _boxHeight = modal1.boxHeight;
+                    timer.Interval = modal1.boxSpeed;
+                }
+
+                universe = new bool[_boxWidth, _boxHeight];
+                scratchPad = new bool[_boxWidth, _boxHeight];
+                graphicsPanel1.Invalidate();
+            }
+        }
+
+        private void gridLinesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (gridLinesToolStripMenuItem.Checked == true)
+            {
+                gridLinesToolStripMenuItem.Checked = false;
+                gridColor = Color.Transparent;
+            }
+            else
+            {
+                gridLinesToolStripMenuItem.Checked = true;
+                gridColor = Color.LightGray;
+            }
+            graphicsPanel1.Invalidate();
+        }
+
+        private void neighborCountNumbersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

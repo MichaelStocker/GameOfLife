@@ -69,6 +69,12 @@
     <Compile Include="Random.Designer.cs">
       <DependentUpon>Random.cs</DependentUpon>
     </Compile>
+    <Compile Include="View Customization.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="View Customization.Designer.cs">
+      <DependentUpon>View Customization.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -86,6 +92,9 @@
     </Compile>
     <EmbeddedResource Include="Random.resx">
       <DependentUpon>Random.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="View Customization.resx">
+      <DependentUpon>View Customization.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

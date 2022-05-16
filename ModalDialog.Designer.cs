@@ -128,9 +128,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(111, 142);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(118, 13);
+            this.label1.Size = new System.Drawing.Size(120, 13);
             this.label1.TabIndex = 7;
-            this.label1.Text = "Speed (in miliseconds): ";
+            this.label1.Text = "Speed (in milliseconds): ";
             // 
             // Width
             // 
