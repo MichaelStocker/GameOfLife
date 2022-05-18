@@ -13,7 +13,12 @@ namespace GOLFinal
 {
     public partial class Form1 : Form
     {
+        // Toroidal or Finite Switching Variable
+        bool isFinite;
+        // Neighbor Count Toggle
+        bool isDisplayNums = true;
 
+        // Default Values
         static int _boxWidth = 192;
         static int _boxHeight = 94;
         int _speed = 100;
@@ -25,7 +30,7 @@ namespace GOLFinal
         // Drawing colors
         Color gridColor = Color.LightGray;
         Color cellColor = Color.PowderBlue;
-
+        Color backColor = Color.White;
         // The Timer class
         Timer timer = new Timer();
 
@@ -136,17 +141,21 @@ namespace GOLFinal
                     // Outline the cell with a pen
                     e.Graphics.DrawRectangle(gridPen, cellRect.X, cellRect.Y, cellRect.Width, cellRect.Height);
 
-                    if (CountNeighborsFinite(x, y) > 0)
+                    // Neighbor Count Display
+                    if (isDisplayNums)
                     {
-                        Font font = new Font("Arial", 8f);
+                        if (CountNeighborsFinite(x, y) > 0)
+                        {
+                            Font font = new Font("Arial", 8f);
 
-                        StringFormat stringFormat = new StringFormat();
-                        stringFormat.Alignment = StringAlignment.Center;
-                        stringFormat.LineAlignment = StringAlignment.Center;
+                            StringFormat stringFormat = new StringFormat();
+                            stringFormat.Alignment = StringAlignment.Center;
+                            stringFormat.LineAlignment = StringAlignment.Center;
 
-                        int neighbors = CountSwitch(isFinite, x, y);
+                            int neighbors = CountSwitch(isFinite, x, y);
 
-                        e.Graphics.DrawString(neighbors.ToString(), font, Brushes.Black, cellRect, stringFormat);
+                            e.Graphics.DrawString(neighbors.ToString(), font, Brushes.Black, cellRect, stringFormat);
+                        }
                     }
                 }
             }
@@ -336,29 +345,27 @@ namespace GOLFinal
         }
         int CountSwitch(bool a, int x, int y)
         {
+            // Function to Toggle between Finite and Toroidal Edges
             if (a)
             {
                 return CountNeighborsFinite(x, y);
             }
             else return CountNeighborsToroidal(x, y);
         }
-        //------------------------------------------------------------------Buttons-------------------------------------------------------------------------------------------------//
-
-        // Toroidal or Finite Switching Variable
-        bool isFinite;
+        #region Buttons
+        // Start Button
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            // Start Button
             timer.Enabled = true;
         }
+        // Pause Button
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
-            // Pause Button
             timer.Enabled = false;
         }
+        // Step Button
         private void toolStripButton3_Click(object sender, EventArgs e)
         {
-            // Step Button
             if (timer.Enabled == false) NextGeneration();
         }
 
@@ -371,13 +378,16 @@ namespace GOLFinal
                 // popup will display current color implimentation
                 colorPick.userCellColor = cellColor;
                 colorPick.userGridColor = gridColor;
+                colorPick.panelBackgroundColor = backColor;
 
                 if (DialogResult.OK == colorPick.ShowDialog())
                 {
                     gridColor = colorPick.userGridColor;
                     cellColor = colorPick.userCellColor;
+                    backColor = colorPick.panelBackgroundColor;
                 }
             }
+            graphicsPanel1.BackColor = backColor;
             graphicsPanel1.Invalidate();
         }
 
@@ -397,7 +407,7 @@ namespace GOLFinal
             }
         }
 
-        private void toolStripMenuItem1_Click(object sender, EventArgs e){} // Accidental double click on Randomize menu header
+        private void toolStripMenuItem1_Click(object sender, EventArgs e) { } // Accidental double click on Randomize menu header
 
         private void randomizeByTimeToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -423,6 +433,8 @@ namespace GOLFinal
             isFinite = false;
         }
 
+
+        
         private void openToolStripButton_Click(object sender, EventArgs e)
         {
             // Opens a saved .cells file
@@ -587,22 +599,41 @@ namespace GOLFinal
 
         private void gridLinesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (gridLinesToolStripMenuItem.Checked == true)
+            if (timer.Enabled == false)
             {
-                gridLinesToolStripMenuItem.Checked = false;
-                gridColor = Color.Transparent;
+                // Grid Toggle
+                if (gridLinesToolStripMenuItem.Checked == true)
+                {
+                    gridLinesToolStripMenuItem.Checked = false;
+                    gridColor = Color.Transparent;
+                }
+                else
+                {
+                    gridLinesToolStripMenuItem.Checked = true;
+                    gridColor = Color.LightGray;
+                }
+                graphicsPanel1.Invalidate();
             }
-            else
-            {
-                gridLinesToolStripMenuItem.Checked = true;
-                gridColor = Color.LightGray;
-            }
-            graphicsPanel1.Invalidate();
         }
 
         private void neighborCountNumbersToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (timer.Enabled == false)
+            {
+                // Neighbor Count Toggle
+                if (neighborCountNumbersToolStripMenuItem.Checked == true)
+                {
+                    neighborCountNumbersToolStripMenuItem.Checked = false;
+                    isDisplayNums = false;
+                }
+                else
+                {
+                    neighborCountNumbersToolStripMenuItem.Checked = true;
+                    isDisplayNums = true;
+                }
+                graphicsPanel1.Invalidate();
+            }
         }
+        #endregion
     }
 }
