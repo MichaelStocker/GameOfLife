@@ -31,21 +31,21 @@
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.Cancel = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
             this.gridColorButton = new System.Windows.Forms.Button();
             this.cellColorBotton = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(215, 85);
+            this.label1.Location = new System.Drawing.Point(210, 83);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(104, 13);
+            this.label1.Size = new System.Drawing.Size(107, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Choose a Grid Color:";
+            this.label1.Text = "Choose a Grid Color :";
             // 
             // button1
             // 
@@ -67,15 +67,6 @@
             this.Cancel.Text = "Cancel";
             this.Cancel.UseVisualStyleBackColor = true;
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(215, 122);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(102, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Choose a Cell Color:";
-            // 
             // gridColorButton
             // 
             this.gridColorButton.BackColor = System.Drawing.Color.White;
@@ -90,7 +81,7 @@
             // cellColorBotton
             // 
             this.cellColorBotton.BackColor = System.Drawing.Color.White;
-            this.cellColorBotton.Location = new System.Drawing.Point(323, 120);
+            this.cellColorBotton.Location = new System.Drawing.Point(323, 118);
             this.cellColorBotton.Name = "cellColorBotton";
             this.cellColorBotton.Size = new System.Drawing.Size(33, 17);
             this.cellColorBotton.TabIndex = 3;
@@ -110,11 +101,20 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(176, 157);
+            this.label3.Location = new System.Drawing.Point(171, 157);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(143, 13);
+            this.label3.Size = new System.Drawing.Size(146, 13);
             this.label3.TabIndex = 1;
-            this.label3.Text = "Choose a Background Color:";
+            this.label3.Text = "Choose a Background Color :";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(212, 120);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(105, 13);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Choose a Cell Color :";
             // 
             // View_Customization
             // 
@@ -126,8 +126,8 @@
             this.Controls.Add(this.gridColorButton);
             this.Controls.Add(this.Cancel);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.label1);
             this.Name = "View_Customization";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -141,10 +141,10 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button Cancel;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button gridColorButton;
         private System.Windows.Forms.Button cellColorBotton;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
     }
 }

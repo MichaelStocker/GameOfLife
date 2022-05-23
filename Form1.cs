@@ -21,18 +21,18 @@ namespace GOLFinal
         bool displayHUD = true;
 
         // Default Values
-        static int _boxWidth = 192;
-        static int _boxHeight = 94;
-        int _speed = 100;
+        static int _boxWidth = Properties.Settings.Default.width;
+        static int _boxHeight = Properties.Settings.Default.height;
+        int _speed = Properties.Settings.Default.speed;
 
         // The universe array
-        bool[,] universe = new bool[192, 94];
-        bool[,] scratchPad = new bool[192, 94];
+        bool[,] universe = new bool[_boxWidth, _boxHeight];
+        bool[,] scratchPad = new bool[_boxWidth, _boxHeight];
 
         // Drawing colors
-        Color gridColor = Color.LightGray;
-        Color cellColor = Color.PowderBlue;
-        Color backColor = Color.White;
+        Color gridColor = Properties.Settings.Default.grid;
+        Color cellColor = Properties.Settings.Default.cell;
+        Color backColor = Properties.Settings.Default.background;
         // The Timer class
         Timer timer = new Timer();
 
@@ -46,7 +46,7 @@ namespace GOLFinal
             // Setup the timer
             timer.Interval = _speed; // milliseconds
             timer.Tick += Timer_Tick;
-            timer.Enabled = false; // start timer running
+            timer.Enabled = false; // start timer as paused
         }
 
         // Calculate the next generation of cells
@@ -161,27 +161,31 @@ namespace GOLFinal
                     }
                 }
             }
-            string borderType;
+            // Code for Creating and Displaying the HUD
+            string borderType = "Finite";
             Rectangle hud = Rectangle.Empty;
-            hud.Y = graphicsPanel1.ClientSize.Height - 85;
-            hud.X = graphicsPanel1.ClientSize.Width - (graphicsPanel1.Width -5);
+            hud.Y = graphicsPanel1.ClientSize.Height - 95;
+            hud.X = graphicsPanel1.ClientSize.Width - (graphicsPanel1.Width - 5);
 
             if (isFinite)
-            { 
+            {
                 borderType = "Finite";
             }
             else
-            { 
+            {
                 borderType = "Toroidal";
             }
 
             if (displayHUD)
             {
-                
+
                 int liveCellDisplay = LivingCells();
                 Font font = new Font("Arial", 14f);
                 StringFormat stringFormat = new StringFormat();
-                e.Graphics.DrawString("Live Cells = " + liveCellDisplay + "\n" + "Generation = " + generations + "\n" + "Border Type = " + borderType + "\n" + "Universe Size (Width,Height) = " + "(" +_boxWidth + "," + _boxHeight + ")", font, Brushes.Black, hud, stringFormat);
+                e.Graphics.DrawString("Live Cells = " + liveCellDisplay + "\n" +
+                    "Generation = " + generations + "\n" +
+                    "Border Type = " + borderType + "\n" +
+                    "Universe Size (Width,Height) = " + "(" + _boxWidth + "," + _boxHeight + ")", font, Brushes.Black, hud, stringFormat);
 
             }
 
@@ -192,36 +196,41 @@ namespace GOLFinal
 
         private void graphicsPanel1_MouseClick(object sender, MouseEventArgs e)
         {
-            // If the left mouse button was clicked
-            if (e.Button == MouseButtons.Left)
+            try
             {
-                // Calculate the width and height of each cell in pixels
-                int cellWidth = graphicsPanel1.ClientSize.Width / universe.GetLength(0);
-                int cellHeight = graphicsPanel1.ClientSize.Height / universe.GetLength(1);
-
-                int cellLength;
-                if (cellWidth < cellHeight)
+                // If the left mouse button was clicked
+                if (e.Button == MouseButtons.Left)
                 {
-                    cellLength = cellWidth;
+                    // Calculate the width and height of each cell in pixels
+                    int cellWidth = graphicsPanel1.ClientSize.Width / universe.GetLength(0);
+                    int cellHeight = graphicsPanel1.ClientSize.Height / universe.GetLength(1);
+
+                    int cellLength;
+                    if (cellWidth < cellHeight)
+                    {
+                        cellLength = cellWidth;
+                    }
+                    else cellLength = cellHeight;
+
+                    // Calculate the cell that was clicked in
+                    // CELL X = MOUSE X / CELL WIDTH
+                    int x = e.X / cellLength;
+                    // CELL Y = MOUSE Y / CELL HEIGHT
+                    int y = e.Y / cellLength;
+
+                    // Toggle the cell's state
+                    universe[x, y] = !universe[x, y];
+
+                    // Tell Windows you need to repaint
+                    graphicsPanel1.Invalidate();
                 }
-                else cellLength = cellHeight;
-
-                // Calculate the cell that was clicked in
-                // CELL X = MOUSE X / CELL WIDTH
-                int x = e.X / cellLength;
-                // CELL Y = MOUSE Y / CELL HEIGHT
-                int y = e.Y / cellLength;
-
-                // Toggle the cell's state
-                universe[x, y] = !universe[x, y];
-
-                // Tell Windows you need to repaint
-                graphicsPanel1.Invalidate();
             }
+            // Error Catch
+            catch (Exception ex){}
         }
+            // Count neighbors with a finite border
         private int CountNeighborsFinite(int x, int y)
         {
-            // Count neighbors with a finite border
             int neighborCount = 0;
             int xLen = universe.GetLength(0);
             int yLen = universe.GetLength(1);
@@ -261,9 +270,9 @@ namespace GOLFinal
             }
             return neighborCount;
         }
+            // Count neighbors with an infinite border
         private int CountNeighborsToroidal(int x, int y)
         {
-            // Count neighbors with an infinite border
             int neighborCount = 0;
             int xLen = universe.GetLength(0);
             int yLen = universe.GetLength(1);
@@ -302,9 +311,9 @@ namespace GOLFinal
             }
             return neighborCount;
         }
+            // Counts living cells to display Living Cells Count
         public int LivingCells()
         {
-            // Counts living cells to display Living Cells Count
             int count = 0;
             for (int i = 0; i < universe.GetLength(0); i++)
             {
@@ -315,9 +324,9 @@ namespace GOLFinal
             }
             return count;
         }
+            // Function that randomizes the universe by time
         private void RandomTime()
         {
-            // function that randomizes the universe by time
             if (timer.Enabled == false)
             {
                 Random randy = new Random();
@@ -336,9 +345,9 @@ namespace GOLFinal
                 NextGeneration();
             }
         }
+            // Function that randomizes the universe by a user's seed
         private void RandomSeed()
         {
-            // function that randomizes the universe by a user's seed
             if (timer.Enabled == false)
             {
                 RandomSeed modal1 = new RandomSeed();
@@ -368,9 +377,9 @@ namespace GOLFinal
                 graphicsPanel1.Invalidate();
             }
         }
+        // Function to Toggle between Finite and Toroidal Edge Behavior
         int CountSwitch(bool a, int x, int y)
         {
-            // Function to Toggle between Finite and Toroidal Edges
             if (a)
             {
                 return CountNeighborsFinite(x, y);
@@ -378,6 +387,7 @@ namespace GOLFinal
             else return CountNeighborsToroidal(x, y);
         }
         #region Buttons
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------//
         // Start Button
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
@@ -394,9 +404,9 @@ namespace GOLFinal
             if (timer.Enabled == false) NextGeneration();
         }
 
+        // Allows user to change cell and grid colors
         private void customizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // Allows user to change cell and grid colors
             if (timer.Enabled == false)
             {
                 View_Customization colorPick = new View_Customization();
@@ -410,12 +420,12 @@ namespace GOLFinal
                     gridColor = colorPick.userGridColor;
                     cellColor = colorPick.userCellColor;
                     backColor = colorPick.panelBackgroundColor;
+                    graphicsPanel1.BackColor = backColor;
                 }
             }
-            graphicsPanel1.BackColor = backColor;
             graphicsPanel1.Invalidate();
         }
-
+        // Clear the Universe
         private void newToolStripButton_Click(object sender, EventArgs e)
         {
             if (timer.Enabled == false)
@@ -434,27 +444,27 @@ namespace GOLFinal
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e) { } // Accidental double click on Randomize menu header
 
+        // Calls the Randomize By Time function
         private void randomizeByTimeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // Calls the Randomize By Time function
             RandomTime();
         }
 
+        // Calls the Randomize By User Seed function
         private void randomizeBySeedToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // Calls the Randomize By User Seed function
             RandomSeed();
         }
 
+        // button that toggles the border to Finite
         private void Finite_CheckedChanged(object sender, EventArgs e)
         {
-            // button that toggles the border to Finite
             isFinite = true;
         }
 
+        // button that toggles the border to Toroidal
         private void Toroidal_CheckedChanged(object sender, EventArgs e)
         {
-            // button that toggles the border to Toroidal
             isFinite = false;
         }
 
@@ -622,11 +632,11 @@ namespace GOLFinal
             }
         }
 
+        // Grid Toggle
         private void gridLinesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (timer.Enabled == false)
             {
-                // Grid Toggle
                 if (gridLinesToolStripMenuItem.Checked == true)
                 {
                     gridLinesToolStripMenuItem.Checked = false;
@@ -641,11 +651,11 @@ namespace GOLFinal
             }
         }
 
+        // Neighbor Count Toggle
         private void neighborCountNumbersToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (timer.Enabled == false)
             {
-                // Neighbor Count Toggle
                 if (neighborCountNumbersToolStripMenuItem.Checked == true)
                 {
                     neighborCountNumbersToolStripMenuItem.Checked = false;
@@ -659,7 +669,6 @@ namespace GOLFinal
                 graphicsPanel1.Invalidate();
             }
         }
-        #endregion
 
         private void displayHUDToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -675,5 +684,17 @@ namespace GOLFinal
             }
             graphicsPanel1.Invalidate();
         }
+        // Saves Settings
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Properties.Settings.Default.width = _boxWidth;
+            Properties.Settings.Default.height = _boxHeight;
+            Properties.Settings.Default.speed = _speed;
+            Properties.Settings.Default.grid = gridColor;
+            Properties.Settings.Default.cell = cellColor;
+            Properties.Settings.Default.background = backColor;
+            Properties.Settings.Default.Save();
+        }
+        #endregion
     }
 }

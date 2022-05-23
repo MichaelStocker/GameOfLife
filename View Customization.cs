@@ -16,6 +16,7 @@ namespace GOLFinal
         {
             InitializeComponent();
         }
+        // Properties for Get/Set Colors
         public Color userGridColor
         {
             get { return gridColorButton.BackColor; }
@@ -74,6 +75,6 @@ namespace GOLFinal
             // Update the text box color if the user clicks OK 
             if (MyDialog.ShowDialog() == DialogResult.OK)
                 button2.BackColor = MyDialog.Color;
-        }
+        }  
     }
 }
