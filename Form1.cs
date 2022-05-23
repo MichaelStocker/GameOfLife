@@ -96,13 +96,11 @@ namespace GOLFinal
             toolStripStatusLivingCells.Text = "Living Cells = " + LivingCells();
             graphicsPanel1.Invalidate();
         }
-
         // The event called by the timer every Interval milliseconds.
         private void Timer_Tick(object sender, EventArgs e)
         {
             NextGeneration();
         }
-
         private void graphicsPanel1_Paint(object sender, PaintEventArgs e)
         {
             // Calculate the width and height of each cell in pixels
@@ -193,7 +191,6 @@ namespace GOLFinal
             gridPen.Dispose();
             cellBrush.Dispose();
         }
-
         private void graphicsPanel1_MouseClick(object sender, MouseEventArgs e)
         {
             try
@@ -226,9 +223,9 @@ namespace GOLFinal
                 }
             }
             // Error Catch
-            catch (Exception ex){}
+            catch (Exception ex) { }
         }
-            // Count neighbors with a finite border
+        // Count neighbors with a finite border
         private int CountNeighborsFinite(int x, int y)
         {
             int neighborCount = 0;
@@ -270,7 +267,7 @@ namespace GOLFinal
             }
             return neighborCount;
         }
-            // Count neighbors with an infinite border
+        // Count neighbors with an infinite border
         private int CountNeighborsToroidal(int x, int y)
         {
             int neighborCount = 0;
@@ -311,7 +308,7 @@ namespace GOLFinal
             }
             return neighborCount;
         }
-            // Counts living cells to display Living Cells Count
+        // Counts living cells to display Living Cells Count
         public int LivingCells()
         {
             int count = 0;
@@ -324,7 +321,7 @@ namespace GOLFinal
             }
             return count;
         }
-            // Function that randomizes the universe by time
+        // Function that randomizes the universe by time
         private void RandomTime()
         {
             if (timer.Enabled == false)
@@ -345,7 +342,7 @@ namespace GOLFinal
                 NextGeneration();
             }
         }
-            // Function that randomizes the universe by a user's seed
+        // Function that randomizes the universe by a user's seed
         private void RandomSeed()
         {
             if (timer.Enabled == false)
@@ -386,8 +383,8 @@ namespace GOLFinal
             }
             else return CountNeighborsToroidal(x, y);
         }
+        //------------------------------------------------------------------------Buttons--------------------------------------------------------------------------------------------//
         #region Buttons
-        //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------//
         // Start Button
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
@@ -403,7 +400,6 @@ namespace GOLFinal
         {
             if (timer.Enabled == false) NextGeneration();
         }
-
         // Allows user to change cell and grid colors
         private void customizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -441,38 +437,29 @@ namespace GOLFinal
                 graphicsPanel1.Invalidate();
             }
         }
-
-        private void toolStripMenuItem1_Click(object sender, EventArgs e) { } // Accidental double click on Randomize menu header
-
         // Calls the Randomize By Time function
         private void randomizeByTimeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             RandomTime();
         }
-
         // Calls the Randomize By User Seed function
         private void randomizeBySeedToolStripMenuItem_Click(object sender, EventArgs e)
         {
             RandomSeed();
         }
-
         // button that toggles the border to Finite
         private void Finite_CheckedChanged(object sender, EventArgs e)
         {
             isFinite = true;
         }
-
         // button that toggles the border to Toroidal
         private void Toroidal_CheckedChanged(object sender, EventArgs e)
         {
             isFinite = false;
         }
-
-
-
+        // Opens a saved .cells file
         private void openToolStripButton_Click(object sender, EventArgs e)
         {
-            // Opens a saved .cells file
             int rowNum;
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Filter = "Cells|*.cells";
@@ -561,10 +548,9 @@ namespace GOLFinal
                 graphicsPanel1.Invalidate();
             }
         }
-
+        // Saves a .cells file
         private void saveToolStripButton_Click(object sender, EventArgs e)
         {
-            // saves a .cells file
             SaveFileDialog dlg = new SaveFileDialog();
             dlg.Filter = "Cells|*.cells";
             dlg.FilterIndex = 2; dlg.DefaultExt = "cells";
@@ -606,10 +592,9 @@ namespace GOLFinal
                 writer.Close();
             }
         }
-
+        // Button allows the user to change the size and speed of the universe
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // Button allows the user to change the size and speed of the universe
             if (timer.Enabled == false)
             {
                 ModalDialog modal1 = new ModalDialog();
@@ -631,7 +616,6 @@ namespace GOLFinal
                 graphicsPanel1.Invalidate();
             }
         }
-
         // Grid Toggle
         private void gridLinesToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -650,7 +634,6 @@ namespace GOLFinal
                 graphicsPanel1.Invalidate();
             }
         }
-
         // Neighbor Count Toggle
         private void neighborCountNumbersToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -669,7 +652,7 @@ namespace GOLFinal
                 graphicsPanel1.Invalidate();
             }
         }
-
+        // HUD Display Toggle
         private void displayHUDToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (displayHUDToolStripMenuItem.Checked == true)
@@ -684,6 +667,31 @@ namespace GOLFinal
             }
             graphicsPanel1.Invalidate();
         }
+        // Reset Settings
+        private void resetToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.Reset();
+
+            _boxWidth = Properties.Settings.Default.width;
+            _boxHeight = Properties.Settings.Default.height;
+            _speed = Properties.Settings.Default.speed;
+            gridColor = Properties.Settings.Default.grid;
+            cellColor = Properties.Settings.Default.cell;
+            backColor = Properties.Settings.Default.background;
+        }
+        // Reload Settings
+        private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.Reload();
+
+            _boxWidth = Properties.Settings.Default.width;
+            _boxHeight = Properties.Settings.Default.height;
+            _speed = Properties.Settings.Default.speed;
+            gridColor = Properties.Settings.Default.grid;
+            cellColor = Properties.Settings.Default.cell;
+            backColor = Properties.Settings.Default.background;
+        }
+        #endregion
         // Saves Settings
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
@@ -695,6 +703,6 @@ namespace GOLFinal
             Properties.Settings.Default.background = backColor;
             Properties.Settings.Default.Save();
         }
-        #endregion
+
     }
 }
