@@ -131,7 +131,7 @@
             this.Controls.Add(this.label1);
             this.Name = "View_Customization";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "View_Customization";
+            this.Text = "Customize";
             this.ResumeLayout(false);
             this.PerformLayout();
 

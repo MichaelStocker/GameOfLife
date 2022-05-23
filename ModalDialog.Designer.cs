@@ -174,7 +174,7 @@
             this.MinimizeBox = false;
             this.Name = "ModalDialog";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "ModalDialog";
+            this.Text = "Options";
             ((System.ComponentModel.ISupportInitialize)(this.Speed)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Height)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.Width)).EndInit();
