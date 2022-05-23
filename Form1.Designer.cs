@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -65,6 +66,8 @@
             this.Finite = new System.Windows.Forms.RadioButton();
             this.Toroidal = new System.Windows.Forms.RadioButton();
             this.graphicsPanel1 = new GOLFinal.GraphicsPanel();
+            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.displayHUDToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
@@ -222,7 +225,8 @@
             // 
             this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.gridLinesToolStripMenuItem,
-            this.neighborCountNumbersToolStripMenuItem});
+            this.neighborCountNumbersToolStripMenuItem,
+            this.displayHUDToolStripMenuItem});
             this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
             this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.viewToolStripMenuItem.Text = "View";
@@ -393,12 +397,27 @@
             this.graphicsPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.graphicsPanel1_Paint);
             this.graphicsPanel1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.graphicsPanel1_MouseClick);
             // 
+            // contextMenuStrip1
+            // 
+            this.contextMenuStrip1.Name = "contextMenuStrip1";
+            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
+            // 
+            // displayHUDToolStripMenuItem
+            // 
+            this.displayHUDToolStripMenuItem.Checked = true;
+            this.displayHUDToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.displayHUDToolStripMenuItem.Name = "displayHUDToolStripMenuItem";
+            this.displayHUDToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.displayHUDToolStripMenuItem.Text = "Display HUD";
+            this.displayHUDToolStripMenuItem.Click += new System.EventHandler(this.displayHUDToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(573, 409);
+            this.ContextMenuStrip = this.contextMenuStrip1;
             this.Controls.Add(this.Toroidal);
             this.Controls.Add(this.Finite);
             this.Controls.Add(this.graphicsPanel1);
@@ -459,6 +478,8 @@
         private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gridLinesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem neighborCountNumbersToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem displayHUDToolStripMenuItem;
     }
 }
 

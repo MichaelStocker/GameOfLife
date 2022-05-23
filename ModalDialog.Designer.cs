@@ -140,6 +140,11 @@
             0,
             0,
             0});
+            this.Width.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.Width.Name = "Width";
             this.Width.Size = new System.Drawing.Size(120, 20);
             this.Width.TabIndex = 8;

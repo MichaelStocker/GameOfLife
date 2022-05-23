@@ -17,6 +17,8 @@ namespace GOLFinal
         bool isFinite;
         // Neighbor Count Toggle
         bool isDisplayNums = true;
+        // Hud Display Toggle
+        bool displayHUD = true;
 
         // Default Values
         static int _boxWidth = 192;
@@ -144,7 +146,7 @@ namespace GOLFinal
                     // Neighbor Count Display
                     if (isDisplayNums)
                     {
-                        if (CountNeighborsFinite(x, y) > 0)
+                        if (CountSwitch(isFinite, x, y) > 0)
                         {
                             Font font = new Font("Arial", 8f);
 
@@ -158,6 +160,29 @@ namespace GOLFinal
                         }
                     }
                 }
+            }
+            string borderType;
+            Rectangle hud = Rectangle.Empty;
+            hud.Y = graphicsPanel1.ClientSize.Height - 85;
+            hud.X = graphicsPanel1.ClientSize.Width - (graphicsPanel1.Width -5);
+
+            if (isFinite)
+            { 
+                borderType = "Finite";
+            }
+            else
+            { 
+                borderType = "Toroidal";
+            }
+
+            if (displayHUD)
+            {
+                
+                int liveCellDisplay = LivingCells();
+                Font font = new Font("Arial", 14f);
+                StringFormat stringFormat = new StringFormat();
+                e.Graphics.DrawString("Live Cells = " + liveCellDisplay + "\n" + "Generation = " + generations + "\n" + "Border Type = " + borderType + "\n" + "Universe Size (Width,Height) = " + "(" +_boxWidth + "," + _boxHeight + ")", font, Brushes.Black, hud, stringFormat);
+
             }
 
             // Cleaning up pens and brushes
@@ -434,7 +459,7 @@ namespace GOLFinal
         }
 
 
-        
+
         private void openToolStripButton_Click(object sender, EventArgs e)
         {
             // Opens a saved .cells file
@@ -635,5 +660,20 @@ namespace GOLFinal
             }
         }
         #endregion
+
+        private void displayHUDToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (displayHUDToolStripMenuItem.Checked == true)
+            {
+                displayHUDToolStripMenuItem.Checked = false;
+                displayHUD = false;
+            }
+            else
+            {
+                displayHUDToolStripMenuItem.Checked = true;
+                displayHUD = true;
+            }
+            graphicsPanel1.Invalidate();
+        }
     }
 }
